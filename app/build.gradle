@@ -1,11 +1,70 @@
+import java.text.SimpleDateFormat
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
+buildscript {
+    dependencies{
+        classpath("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
+    }
+}
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+static def String releaseTime() {
+    return new SimpleDateFormat("yyMMdd").format(new Date())
+}
+
+static def int parseVersionCode() {
+    return Integer.parseInt(new SimpleDateFormat("yyMMdd0HH").format(new Date()))
+}
+
+static def String commitNum() {
+    def resultArray = readText(processCmd("git describe --always")).trim().split("-")
+    return resultArray[resultArray.size() - 1]
+}
+
+static def Process processCmd(String cmd) {
+    return Runtime.getRuntime().exec(cmd)
+}
+
+static def String readText(Process process) {
+    def inputStream = process.inputStream
+    def insReader = new InputStreamReader(inputStream)
+    def bufReader = new BufferedReader(insReader)
+    def output = ""
+    def line = ""
+    line = bufReader.readLine()
+    output += line
+    return output
+}
+
+
 android {
     namespace 'org.nanking.knightingal.militaryumpire'
     compileSdk 34
+    signingConfigs {
+        getByName("debug") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
 
     defaultConfig {
         applicationId "org.nanking.knightingal.militaryumpire"
@@ -21,6 +80,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig = signingConfigs.release
         }
     }
     compileOptions {
@@ -32,6 +92,29 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+}
+
+tasks.register('releaseUpload') {
+    dependsOn("assembleRelease")
+    doLast {
+        println("do releaseUpload")
+        def target = project.buildDir.toString() + '/outputs/apk/release/app-release.apk'
+        println(target)
+        def client = new OkHttpClient().newBuilder().build()
+        def body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("file",
+                        target,
+                        RequestBody.create(MediaType.parse("application/octet-stream"),
+                                new File(target)
+                        )
+                ).build()
+        Request request = new Request.Builder()
+                .url("http://localhost:8000/apkConfig/upload")
+                .method("POST", body)
+                .build()
+        Response response = client.newCall(request).execute()
+        println("${response.code().toString()}  ${response.body().string()}")
     }
 }
 
