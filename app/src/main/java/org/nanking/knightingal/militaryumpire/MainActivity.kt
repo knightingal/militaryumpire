@@ -121,15 +121,20 @@ class MainActivity : AppCompatActivity() {
                 override fun onCaptureSuccess(image: ImageProxy) {
                     super.onCaptureSuccess(image)
                     val imageBytes = ImageUtil.jpegImageToJpegByteArray(image)
+                    image.close()
 
-                    val client = OkHttpClient()
-                    val binaryType: MediaType = "image/png".toMediaType()
-                    val body = imageBytes.toRequestBody(binaryType)
-                    val request = Request.Builder().url("http://192.168.2.12:8000/image/upload")
-                        .post(body).build()
-                    val response = client.newCall(request).execute()
-                    val code = response.code
-                    Log.d("PIC", "upload pic resp $code")
+                    Log.d("PIC", "image length ${imageBytes.size}")
+                    Thread(kotlinx.coroutines.Runnable {
+                        val client = OkHttpClient()
+                        val binaryType: MediaType = "image/jpg".toMediaType()
+                        val body = imageBytes.toRequestBody(binaryType)
+                        val request = Request.Builder().url("http://192.168.2.12:8000/dev/image-upload")
+                            .post(body).build()
+                        val response = client.newCall(request).execute()
+                        val code = response.code
+                        Log.d("PIC", "upload pic resp $code")
+                    }).start()
+
                 }
             }
 
