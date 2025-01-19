@@ -83,36 +83,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Create output options object which contains file + metadata
-//        val outputOptions = ImageCapture.OutputFileOptions
-//            .Builder(contentResolver,
-//                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                contentValues)
-//            .build()
-//        var iccc = object : OnImageCapturedCallback() {
-//            override fun onCaptureSuccess(image: ImageProxy) {
-//                var image = image.image;
-//            }
-//        }
-
-        // Set up image capture listener, which is triggered after photo has
-        // been taken
-//        imageCapture.takePicture(
-//            outputOptions,
-//            ContextCompat.getMainExecutor(this),
-//            object : ImageCapture.OnImageSavedCallback {
-//                override fun onError(exc: ImageCaptureException) {
-//                    Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
-//                }
-//
-//                override fun
-//                        onImageSaved(output: ImageCapture.OutputFileResults){
-//                    val msg = "Photo capture succeeded: ${output.savedUri}"
-//                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-//                    Log.d(TAG, msg)
-//                }
-//            }
-//        )
         imageCapture.takePicture(
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageCapturedCallback() {
