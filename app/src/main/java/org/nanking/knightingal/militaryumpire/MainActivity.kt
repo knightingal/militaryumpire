@@ -4,8 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.media.Image
-import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,8 +13,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCapture.OnImageCapturedCallback
-import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.core.internal.utils.ImageUtil
@@ -30,7 +26,6 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.nanking.knightingal.militaryumpire.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
@@ -144,8 +139,18 @@ class MainActivity : AppCompatActivity() {
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
+            startSchedulePicture()
 
         }, ContextCompat.getMainExecutor(this))
+    }
+
+    private fun startSchedulePicture() {
+        Thread {
+            while(true) {
+                Thread.sleep(2 * 1000)
+                takePhoto()
+            }
+        }.start()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
