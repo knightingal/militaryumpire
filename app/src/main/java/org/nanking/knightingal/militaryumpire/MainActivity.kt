@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                         val client = OkHttpClient()
                         val binaryType: MediaType = "image/jpg".toMediaType()
                         val body = imageBytes.toRequestBody(binaryType)
-                        val request = Request.Builder().url("http://192.168.2.12:8000/dev/image-upload")
+                        val request = Request.Builder().url("http://192.168.2.12:8000")
                             .post(body).build()
                         val response = client.newCall(request).execute()
                         val code = response.code
