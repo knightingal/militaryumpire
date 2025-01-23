@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity() {
                             .post(body).build()
                         val response = client.newCall(request).execute()
                         val code = response.code
+                        val respBody = response.body!!.string()
                         Log.d("PIC", "upload pic resp $code")
+                        Log.d("PIC", "upload pic resp $respBody")
                     }).start()
 
                 }
