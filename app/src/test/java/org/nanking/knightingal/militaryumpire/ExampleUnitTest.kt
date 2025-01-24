@@ -14,4 +14,11 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun chequerTest() {
+        val w1 = Chequer.valueOf("军长").weight
+        val w2 = Chequer.valueOf("旅长").weight
+        assertTrue(w2 > w1)
+    }
 }
