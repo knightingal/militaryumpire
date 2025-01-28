@@ -11,7 +11,18 @@ import org.nanking.knightingal.militaryumpire.databinding.ActivityPlayerBinding
 
 class PlayerActivity: AppCompatActivity() {
 
-    private var getContent = registerForActivityResult(OCRParse()) { it ->
+    private var activityResult = registerForActivityResult(object : ActivityResultContract<Void?, String?>() {
+
+        override fun createIntent(context: Context, input: Void?) =
+            Intent(context, MainActivity::class.java)
+
+        override fun parseResult(resultCode: Int, intent: Intent?) : String? {
+            if (resultCode != Activity.RESULT_OK) {
+                return null
+            }
+            return intent?.getStringExtra("ocr")
+        }
+    }) { it ->
         Log.d("PlayerActivity", "ocr result $it")
     }
 
@@ -21,20 +32,10 @@ class PlayerActivity: AppCompatActivity() {
         viewBinding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         viewBinding.player1.setOnClickListener {
-            getContent.launch(null)
+            activityResult.launch(null)
         }
     }
+
 }
 
-class OCRParse : ActivityResultContract<Void?, String?>() {
-    override fun createIntent(context: Context, input: Void?) =
-        Intent(context, MainActivity::class.java)
-
-    override fun parseResult(resultCode: Int, intent: Intent?) : String? {
-        if (resultCode != Activity.RESULT_OK) {
-            return null
-        }
-        return intent?.getStringExtra("ocr")
-    }
-}
 
