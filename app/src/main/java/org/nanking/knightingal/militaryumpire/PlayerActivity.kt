@@ -14,7 +14,7 @@ class PlayerActivity: AppCompatActivity() {
     private var activityResult = registerForActivityResult(object : ActivityResultContract<Void?, String?>() {
 
         override fun createIntent(context: Context, input: Void?) =
-            Intent(context, MainActivity::class.java)
+            Intent(context, ResultActivity::class.java)
 
         override fun parseResult(resultCode: Int, intent: Intent?) : String? {
             if (resultCode != Activity.RESULT_OK) {
