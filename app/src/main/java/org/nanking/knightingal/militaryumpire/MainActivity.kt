@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
+    private var player: String? = null
 
     private lateinit var cameraExecutor: ExecutorService
 
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        player = intent.getStringExtra("player")
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -108,6 +110,7 @@ class MainActivity : AppCompatActivity() {
                                 val chequer = Chequer.valueOf(ocrResponse.text)
                                 val intent = Intent()
                                 intent.putExtra("ocr", chequer.name)
+                                intent.putExtra("player", player)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
                             } catch (_: IllegalArgumentException) {
