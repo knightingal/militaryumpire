@@ -2,7 +2,9 @@ package org.nanking.knightingal.militaryumpire
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +24,7 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -73,9 +76,7 @@ class MainActivity : AppCompatActivity() {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
-            }
+            put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
         }
 
         imageCapture.takePicture(
@@ -100,11 +101,21 @@ class MainActivity : AppCompatActivity() {
                         val respBody = response.body!!.string()
                         Log.d("PIC", "upload pic resp $code")
                         Log.d("PIC", "upload pic resp $respBody")
+                        val ocrRespList = Json.decodeFromString<List<OcrResponse>>(respBody)
+                        if (ocrRespList.size == 1) {
+                            val ocrResponse = ocrRespList[0]
+                            try {
+                                val chequer = Chequer.valueOf(ocrResponse.text)
+                                val intent = Intent()
+                                intent.putExtra("ocr", chequer.name)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            } catch (_: IllegalArgumentException) {
+                            }
+                        }
                     }).start()
-
                 }
             }
-
         )
     }
 
