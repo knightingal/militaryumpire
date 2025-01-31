@@ -1,5 +1,6 @@
 package org.nanking.knightingal.militaryumpire
 
+import kotlinx.serialization.json.Json
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -20,5 +21,13 @@ class ExampleUnitTest {
         val w1 = Chequer.valueOf("军长").weight
         val w2 = Chequer.valueOf("旅长").weight
         assertTrue(w2 > w1)
+    }
+
+    @Test
+    fun parseOcrResponse() {
+        val obj = Json.decodeFromString<OcrResponse>("""{"text":"军长", "trust_rate": 0.9}""")
+        println(obj)
+        val objArray = Json.decodeFromString<List<OcrResponse>>("""[{"text":"军长", "trust_rate": 0.9}]""")
+        println(objArray)
     }
 }
