@@ -28,10 +28,14 @@ class PlayerActivity: AppCompatActivity() {
         if (player1Chequer != null && player2Chequer != null) {
             if (player1Chequer!!.weight == player2Chequer!!.weight) {
                 Log.i("PlayerActivity", "all die")
+            } else if (player1Chequer == Chequer.工兵 && player2Chequer == Chequer.地雷) {
+                Log.i("PlayerActivity", "player2Chequer ${player2Chequer!!.name} die")
+            } else if (player2Chequer == Chequer.工兵 && player1Chequer == Chequer.地雷) {
+                Log.i("PlayerActivity", "player1Chequer ${player1Chequer!!.name} die")
             } else if (player1Chequer == Chequer.地雷
-                || player2Chequer == Chequer.地雷
-                || player2Chequer == Chequer.炸弹
-                || player2Chequer == Chequer.炸弹) {
+                    || player2Chequer == Chequer.地雷
+                    || player2Chequer == Chequer.炸弹
+                    || player2Chequer == Chequer.炸弹) {
                 Log.i("PlayerActivity", "all die")
             } else if (player1Chequer!!.weight < player2Chequer!!.weight) {
                 Log.i("PlayerActivity", "player2Chequer ${player2Chequer!!.name} die")
