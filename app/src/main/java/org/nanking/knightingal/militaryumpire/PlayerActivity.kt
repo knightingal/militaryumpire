@@ -51,6 +51,14 @@ class PlayerActivity: AppCompatActivity() {
                 winner = "player2"
             }
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setOnDismissListener {
+                player1Chequer = null
+                player2Chequer = null
+                viewBinding.player1Check.visibility = View.GONE
+                viewBinding.player2Check.visibility = View.GONE
+                viewBinding.player1.visibility = View.VISIBLE
+                viewBinding.player2.visibility = View.VISIBLE
+            }
             if (winner != "") {
                 builder.setMessage("Winner is ${winner}")
                     .setTitle("Player win").create().show()
