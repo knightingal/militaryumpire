@@ -163,7 +163,7 @@ class MainActivity : AppCompatActivity() {
     private fun startSchedulePicture() {
         Thread {
             while(true) {
-                Thread.sleep(2 * 1000)
+                Thread.sleep(500)
                 takePhoto()
             }
         }.start()
