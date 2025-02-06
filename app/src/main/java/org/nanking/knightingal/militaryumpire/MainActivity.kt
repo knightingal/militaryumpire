@@ -6,6 +6,8 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -31,6 +33,8 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.nanking.knightingal.militaryumpire.databinding.ActivityMainBinding
+import java.nio.Buffer
+import java.nio.ByteBuffer
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -91,11 +95,18 @@ class MainActivity : AppCompatActivity() {
                     val imageBytes = ImageUtil.jpegImageToJpegByteArray(image)
                     image.close()
 
-                    Log.d("PIC", "image length ${imageBytes.size}")
+                    val capBitmap: Bitmap =
+                        BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    val miniBitmap: Bitmap = Bitmap.createBitmap(capBitmap, 0, 0, capBitmap.width, capBitmap.height)
+                    val miniBuffer = ByteBuffer.allocate(miniBitmap.byteCount)
+                    miniBitmap.copyPixelsToBuffer(miniBuffer)
+                    val miniByteArray = miniBuffer.array()
+
+                    Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
                         val client = OkHttpClient()
                         val binaryType: MediaType = "image/jpg".toMediaType()
-                        val body = imageBytes.toRequestBody(binaryType)
+                        val body = miniByteArray.toRequestBody(binaryType)
                         val request = Request.Builder().url("http://192.168.2.12:8000")
                             .post(body).build()
                         val response = client.newCall(request).execute()
