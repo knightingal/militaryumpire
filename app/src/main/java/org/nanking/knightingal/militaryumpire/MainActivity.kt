@@ -33,8 +33,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.nanking.knightingal.militaryumpire.databinding.ActivityMainBinding
-import java.nio.Buffer
-import java.nio.ByteBuffer
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -97,10 +96,20 @@ class MainActivity : AppCompatActivity() {
 
                     val capBitmap: Bitmap =
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-                    val miniBitmap: Bitmap = Bitmap.createBitmap(capBitmap, 0, 0, capBitmap.width, capBitmap.height)
-                    val miniBuffer = ByteBuffer.allocate(miniBitmap.byteCount)
-                    miniBitmap.copyPixelsToBuffer(miniBuffer)
-                    val miniByteArray = miniBuffer.array()
+                    val miniBitmap: Bitmap = Bitmap.createBitmap(
+                        capBitmap,
+                        capBitmap.width / 4,
+                        capBitmap.height / 4,
+                        capBitmap.width / 2,
+                        capBitmap.height / 2)
+
+                    val out = ByteArrayOutputStream()
+                    val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                    if (!success) {
+                        throw Exception("Encode bitmap failed.")
+                    }
+                    miniBitmap.recycle()
+                    val miniByteArray = out.toByteArray()
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
