@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.View
 
@@ -29,9 +30,15 @@ class CapCover : View {
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         val p = Paint()
-        p.color = Color.BLUE
-        val width:Float = (width / 2).toFloat()
-        canvas.drawLine(0f, 0f, width, width, p)
+        p.color = Color.GREEN
+        p.style = Paint.Style.STROKE
+
+        val rectWidth = width / 2
+        val top = height / 2 - rectWidth / 2
+        val bottom = height / 2 + rectWidth / 2
+        val left = width / 4
+        val right = left + rectWidth
+        canvas.drawRect(Rect(left, top, right, bottom), p)
     }
 
 
