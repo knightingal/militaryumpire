@@ -16,6 +16,9 @@ class PlayerActivity: AppCompatActivity() {
     private var player2Chequer: Chequer? = null
 
     private var activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.data == null) {
+            return@registerForActivityResult
+        }
         Log.d("PlayerActivity", "ocr result ${it.data!!.getStringExtra("ocr")}")
         Log.d("PlayerActivity", "ocr result ${it.data!!.getStringExtra("player")}")
         val player = it.data!!.getStringExtra("player")
