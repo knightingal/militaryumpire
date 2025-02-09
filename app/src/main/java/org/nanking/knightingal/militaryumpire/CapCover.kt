@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 
 class CapCover : View {
+    var coverWidth: Int = 0
 
     constructor(
         context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int
@@ -38,6 +39,7 @@ class CapCover : View {
         val bottom = height / 2 + rectWidth / 2
         val left = width / 4
         val right = left + rectWidth
+        coverWidth = rectWidth
         canvas.drawRect(Rect(left, top, right, bottom), p)
     }
 

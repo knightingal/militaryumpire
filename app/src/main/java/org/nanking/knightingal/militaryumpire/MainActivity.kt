@@ -131,6 +131,8 @@ class MainActivity : AppCompatActivity() {
                                 val intent = Intent()
                                 intent.putExtra("ocr", chequer.name)
                                 intent.putExtra("player", player)
+                                val coverWidth = viewBinding.capCover.coverWidth
+                                intent.putExtra("coverWidth", coverWidth)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
                             } catch (_: IllegalArgumentException) {
@@ -212,6 +214,16 @@ class MainActivity : AppCompatActivity() {
                     add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 }
             }.toTypedArray()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("Main", "onBackPressed")
+        val coverWidth = viewBinding.capCover.coverWidth
+        Log.d("Main", "coverWidth=${coverWidth}")
+        val intent = Intent()
+        intent.putExtra("coverWidth", coverWidth)
+        setResult(Activity.RESULT_OK, intent)
     }
 
     override fun onRequestPermissionsResult(

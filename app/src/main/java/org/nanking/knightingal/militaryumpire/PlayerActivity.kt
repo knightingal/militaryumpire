@@ -19,6 +19,7 @@ class PlayerActivity: AppCompatActivity() {
         if (it.data == null) {
             return@registerForActivityResult
         }
+        Log.d("PlayerActivity", "coverWidth ${it.data!!.getIntExtra("coverWidth", 0)}")
         Log.d("PlayerActivity", "ocr result ${it.data!!.getStringExtra("ocr")}")
         Log.d("PlayerActivity", "ocr result ${it.data!!.getStringExtra("player")}")
         val player = it.data!!.getStringExtra("player")
