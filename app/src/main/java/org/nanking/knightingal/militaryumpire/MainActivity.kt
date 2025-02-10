@@ -94,14 +94,15 @@ class MainActivity : AppCompatActivity() {
                     val imageBytes = ImageUtil.jpegImageToJpegByteArray(image)
                     image.close()
 
+                    val rectWidth = viewBinding.capCover.coverWidth;
                     val capBitmap: Bitmap =
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                     val miniBitmap: Bitmap = Bitmap.createBitmap(
                         capBitmap,
-                        capBitmap.width / 4,
-                        capBitmap.height / 4,
-                        capBitmap.width / 2,
-                        capBitmap.height / 2)
+                        capBitmap.width / 2 - rectWidth / 2,
+                        capBitmap.height / 2 - rectWidth / 2,
+                        rectWidth,
+                        rectWidth)
 
                     val out = ByteArrayOutputStream()
                     val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
@@ -160,7 +161,7 @@ class MainActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
             imageCapture = ImageCapture.Builder()
-                .setTargetResolution(Size(480, 640))
+//                .setTargetResolution(Size(480, 640))
                 .build()
 
             // Select back camera as a default
