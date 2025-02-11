@@ -19,11 +19,13 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
+import androidx.camera.core.UseCaseGroup
 import androidx.camera.core.internal.utils.ImageUtil
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
+import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.serialization.json.Json
@@ -110,7 +112,8 @@ class MainActivity : AppCompatActivity() {
                         throw Exception("Encode bitmap failed.")
                     }
                     miniBitmap.recycle()
-                    val miniByteArray = out.toByteArray()
+                    var miniByteArray = out.toByteArray()
+//                    miniByteArray = imageBytes
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
@@ -160,8 +163,10 @@ class MainActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
+            val viewFinder = viewBinding.viewFinder
+//            val size = Size(viewFinder.width, viewFinder.height)
             imageCapture = ImageCapture.Builder()
-//                .setTargetResolution(Size(480, 640))
+//                .setTargetResolution(size)
                 .build()
 
             // Select back camera as a default
@@ -189,7 +194,8 @@ class MainActivity : AppCompatActivity() {
                 Thread.sleep(500)
                 takePhoto()
             }
-        }.start()
+        }
+            .start()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
