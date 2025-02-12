@@ -99,6 +99,8 @@ class MainActivity : AppCompatActivity() {
                     val rectWidth = viewBinding.capCover.coverWidth;
                     val capBitmap: Bitmap =
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    Log.d("size", "image size: ${capBitmap.width} * ${capBitmap.height}")
+                    Log.d("size", "preview size: ${viewBinding.viewFinder.width} * ${viewBinding.viewFinder.height}")
                     val miniBitmap: Bitmap = Bitmap.createBitmap(
                         capBitmap,
                         capBitmap.width / 2 - rectWidth / 2,
@@ -113,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     miniBitmap.recycle()
                     var miniByteArray = out.toByteArray()
-//                    miniByteArray = imageBytes
+                    miniByteArray = imageBytes
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
@@ -164,7 +166,7 @@ class MainActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
             val viewFinder = viewBinding.viewFinder
-//            val size = Size(viewFinder.width, viewFinder.height)
+            val size = Size(viewFinder.width, viewFinder.height)
             imageCapture = ImageCapture.Builder()
 //                .setTargetResolution(size)
                 .build()
@@ -195,7 +197,7 @@ class MainActivity : AppCompatActivity() {
                 takePhoto()
             }
         }
-            .start()
+//            .start()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
