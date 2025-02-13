@@ -101,12 +101,13 @@ class MainActivity : AppCompatActivity() {
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                     Log.d("size", "image size: ${capBitmap.width} * ${capBitmap.height}")
                     Log.d("size", "preview size: ${viewBinding.viewFinder.width} * ${viewBinding.viewFinder.height}")
+                    val capRectWidth = capBitmap.width / (viewBinding.viewFinder.height / rectWidth)
                     val miniBitmap: Bitmap = Bitmap.createBitmap(
                         capBitmap,
-                        capBitmap.width / 2 - rectWidth / 2,
-                        capBitmap.height / 2 - rectWidth / 2,
-                        rectWidth,
-                        rectWidth)
+                        capBitmap.width / 2 - capRectWidth / 2,
+                        capBitmap.height / 2 - capRectWidth / 2,
+                        capRectWidth,
+                        capRectWidth)
 
                     val out = ByteArrayOutputStream()
                     val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
@@ -114,8 +115,7 @@ class MainActivity : AppCompatActivity() {
                         throw Exception("Encode bitmap failed.")
                     }
                     miniBitmap.recycle()
-                    var miniByteArray = out.toByteArray()
-                    miniByteArray = imageBytes
+                    val miniByteArray = out.toByteArray()
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
