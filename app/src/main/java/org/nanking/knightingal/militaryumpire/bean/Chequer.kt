@@ -1,4 +1,4 @@
-package org.nanking.knightingal.militaryumpire
+package org.nanking.knightingal.militaryumpire.bean
 
 enum class Chequer(val weight: Int) {
     司令(0),

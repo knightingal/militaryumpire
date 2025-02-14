@@ -1,4 +1,4 @@
-package org.nanking.knightingal.militaryumpire
+package org.nanking.knightingal.militaryumpire.bean
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

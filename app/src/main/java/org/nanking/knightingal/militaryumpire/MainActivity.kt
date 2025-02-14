@@ -19,13 +19,11 @@ import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
-import androidx.camera.core.UseCaseGroup
 import androidx.camera.core.internal.utils.ImageUtil
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
-import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import kotlinx.serialization.json.Json
@@ -34,6 +32,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import org.nanking.knightingal.militaryumpire.bean.Chequer
+import org.nanking.knightingal.militaryumpire.bean.OcrResponse
 import org.nanking.knightingal.militaryumpire.databinding.ActivityMainBinding
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat

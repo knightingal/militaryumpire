@@ -1,4 +1,4 @@
-package org.nanking.knightingal.militaryumpire
+package org.nanking.knightingal.militaryumpire.view
 
 import android.content.Context
 import android.graphics.Canvas

@@ -1,6 +1,5 @@
 package org.nanking.knightingal.militaryumpire
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +7,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import org.nanking.knightingal.militaryumpire.bean.Chequer
 import org.nanking.knightingal.militaryumpire.databinding.ActivityPlayerBinding
 
 class PlayerActivity: AppCompatActivity() {

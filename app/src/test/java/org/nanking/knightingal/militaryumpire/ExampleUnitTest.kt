@@ -4,6 +4,8 @@ import kotlinx.serialization.json.Json
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.nanking.knightingal.militaryumpire.bean.Chequer
+import org.nanking.knightingal.militaryumpire.bean.OcrResponse
 
 /**
  * Example local unit test, which will execute on the development machine (host).
