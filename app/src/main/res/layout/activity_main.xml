@@ -11,7 +11,7 @@
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <org.nanking.knightingal.militaryumpire.CapCover
+    <org.nanking.knightingal.militaryumpire.view.CapCover
         android:id="@+id/capCover"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
