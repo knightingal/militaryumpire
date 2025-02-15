@@ -1,4 +1,4 @@
-package org.nanking.knightingal.militaryumpire
+package org.nanking.knightingal.militaryumpire.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -64,7 +64,8 @@ class MainActivity : AppCompatActivity() {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
-                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
+                this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS
+            )
         }
 
         // Set up the listeners for take photo and video capture buttons

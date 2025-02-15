@@ -1,4 +1,4 @@
-package org.nanking.knightingal.militaryumpire
+package org.nanking.knightingal.militaryumpire.activity
 
 import android.app.Activity
 import android.content.Intent
