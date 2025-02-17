@@ -8,6 +8,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -94,23 +95,28 @@ class MainActivity : AppCompatActivity() {
                 @androidx.annotation.OptIn(androidx.camera.core.ExperimentalGetImage::class)
                 override fun onCaptureSuccess(image: ImageProxy) {
                     super.onCaptureSuccess(image)
+                    val rotation = image.imageInfo.rotationDegrees
                     val imageBytes = ImageUtil.jpegImageToJpegByteArray(image)
                     image.close()
 
                     val rectWidth = viewBinding.capCover.coverWidth;
                     val capBitmap: Bitmap =
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    Log.d("size", "rotation: $rotation")
                     Log.d("size", "image size: ${capBitmap.width} * ${capBitmap.height}")
                     Log.d("size", "preview size: ${viewBinding.viewFinder.width} * ${viewBinding.viewFinder.height}")
                     val capRectWidth = capBitmap.width / (viewBinding.viewFinder.height / rectWidth)
+                    val matrix = Matrix()
+                    matrix.postRotate(rotation.toFloat())
                     val miniBitmap: Bitmap = Bitmap.createBitmap(
                         capBitmap,
                         capBitmap.width / 2 - capRectWidth / 2,
                         capBitmap.height / 2 - capRectWidth / 2,
                         capRectWidth,
-                        capRectWidth)
+                        capRectWidth, matrix, true)
 
                     val out = ByteArrayOutputStream()
+
                     val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     if (!success) {
                         throw Exception("Encode bitmap failed.")
