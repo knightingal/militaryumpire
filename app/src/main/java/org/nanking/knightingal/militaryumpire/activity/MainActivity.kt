@@ -139,8 +139,10 @@ class MainActivity : AppCompatActivity() {
                                 intent.putExtra("ocr", chequer.name)
                                 intent.putExtra("player", player)
                                 intent.putExtra("coverWidth", coverWidth)
-                                setResult(Activity.RESULT_OK, intent)
-                                finish()
+                                runOnUiThread {
+                                    setResult(Activity.RESULT_OK, intent)
+                                    finish()
+                                }
                             } catch (_: IllegalArgumentException) {
                             }
                         }
