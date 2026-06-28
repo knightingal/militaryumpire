@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
+    private val httpClient = OkHttpClient()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -117,12 +119,11 @@ class MainActivity : AppCompatActivity() {
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
                     Thread(kotlinx.coroutines.Runnable {
-                        val client = OkHttpClient()
                         val binaryType: MediaType = "image/jpg".toMediaType()
                         val body = miniByteArray.toRequestBody(binaryType)
                         val request = Request.Builder().url("http://192.168.2.12:8000")
                             .post(body).build()
-                        val response = client.newCall(request).execute()
+                        val response = httpClient.newCall(request).execute()
                         val code = response.code
                         val respBody = response.body!!.string()
                         Log.d("PIC", "upload pic resp $code")
