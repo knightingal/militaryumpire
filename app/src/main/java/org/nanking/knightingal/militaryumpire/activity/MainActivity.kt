@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
                     val out = ByteArrayOutputStream()
 
-                    val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                    val success = miniBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out)
                     if (!success) {
                         throw Exception("Encode bitmap failed.")
                     }
