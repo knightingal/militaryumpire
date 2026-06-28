@@ -92,13 +92,14 @@ class MainActivity : AppCompatActivity() {
                     val imageBytes = ImageUtil.jpegImageToJpegByteArray(image)
                     image.close()
 
-                    val rectWidth = viewBinding.capCover.coverWidth;
+                    val coverWidth = viewBinding.capCover.coverWidth
+                    val previewHeight = viewBinding.viewFinder.height
                     val capBitmap: Bitmap =
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
                     Log.d("size", "rotation: $rotation")
                     Log.d("size", "image size: ${capBitmap.width} * ${capBitmap.height}")
                     Log.d("size", "preview size: ${viewBinding.viewFinder.width} * ${viewBinding.viewFinder.height}")
-                    val capRectWidth = capBitmap.width / (viewBinding.viewFinder.height / rectWidth)
+                    val capRectWidth = capBitmap.width * coverWidth / previewHeight
                     val matrix = Matrix()
                     matrix.postRotate(rotation.toFloat())
                     val miniBitmap: Bitmap = Bitmap.createBitmap(
@@ -136,7 +137,6 @@ class MainActivity : AppCompatActivity() {
                                 val intent = Intent()
                                 intent.putExtra("ocr", chequer.name)
                                 intent.putExtra("player", player)
-                                val coverWidth = viewBinding.capCover.coverWidth
                                 intent.putExtra("coverWidth", coverWidth)
                                 setResult(Activity.RESULT_OK, intent)
                                 finish()
