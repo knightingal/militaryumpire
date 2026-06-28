@@ -108,6 +108,7 @@ class MainActivity : AppCompatActivity() {
                         capBitmap.height / 2 - capRectWidth / 2,
                         capRectWidth,
                         capRectWidth, matrix, true)
+                    capBitmap.recycle()
 
                     val out = ByteArrayOutputStream()
 
