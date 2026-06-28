@@ -118,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                     val miniByteArray = out.toByteArray()
 
                     Log.d("PIC", "image length ${miniByteArray.size}")
-                    Thread(kotlinx.coroutines.Runnable {
+                    Thread {
                         val binaryType: MediaType = "image/jpg".toMediaType()
                         val body = miniByteArray.toRequestBody(binaryType)
                         val request = Request.Builder().url("http://192.168.2.12:8000")
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                             } catch (_: IllegalArgumentException) {
                             }
                         }
-                    }).start()
+                    }.start()
                 }
             }
         )
