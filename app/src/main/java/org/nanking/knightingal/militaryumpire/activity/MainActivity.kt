@@ -163,10 +163,8 @@ class MainActivity : AppCompatActivity() {
                 .also {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
-            val viewFinder = viewBinding.viewFinder
-            val size = Size(viewFinder.width, viewFinder.height)
             imageCapture = ImageCapture.Builder()
-//                .setTargetResolution(size)
+                .setTargetResolution(Size(640, 640))
                 .build()
 
             // Select back camera as a default
