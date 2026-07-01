@@ -196,8 +196,7 @@ class MainActivity : AppCompatActivity() {
                 Thread.sleep(500)
                 takePhoto()
             }
-        }
-//            .start()
+        }.start()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
